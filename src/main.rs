@@ -18,10 +18,10 @@ fn cursor(page_info: &Value) -> String {
 }
 
 fn main() {
-    let token = env::var("GITLAB_TOKEN").expect("GITLAB_TOKEN to be set");
+    let token = env::var("GITLAB_TOKEN").expect("GITLAB_TOKEN Not Set");
     let client = Client::new();
-    let gitlab_server = env::args().nth(1).expect("the GitLab server to be provided");
-    let namespace_id = env::args().nth(2).expect("the namespace id to be provided");
+    let gitlab_server = env::args().nth(1).expect("GitLab Server Not Provided");
+    let namespace_id = env::args().nth(2).expect("Namespace ID Not Provided");
 
     let mut query = ProjectQuery::new(&namespace_id);
 
@@ -31,10 +31,10 @@ fn main() {
             .header("Authorization", format!("Bearer {}", token))
             .header("Content-Type", "application/json")
             .body(json!({"query": query_str}).to_string())
-            .send().expect("the result to be valid")
-            .text().expect("this to be valid json");
+            .send().expect("Request Error")
+            .text().expect("Body Error");
 
-        let json:Value = serde_json::from_str(&content).expect("the content to be valid json");
+        let json:Value = serde_json::from_str(&content).expect("JSON Parse Error");
         let namespace = &json["data"]["namespace"]["projects"];
         let groups = &json["data"]["group"]["descendantGroups"];
 
