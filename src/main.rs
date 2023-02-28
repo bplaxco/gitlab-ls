@@ -42,7 +42,7 @@ fn main() {
 
         if let Value::Array(ps) = &namespace["nodes"] {
             for p in ps {
-                if let Value::String(url) = &p["httpUrlToRepo"] {
+                if let Value::String(url) = &p["sshUrlToRepo"] {
                     println!("{}", url);
                 }
             }
@@ -53,7 +53,7 @@ fn main() {
                 // This doesn't properly paginate projects yet
                 if let Value::Array(ps) = &group["projects"]["nodes"] {
                     for p in ps {
-                        if let Value::String(url) = &p["httpUrlToRepo"] {
+                        if let Value::String(url) = &p["sshUrlToRepo"] {
                             println!("{}", url);
                         }
                     }

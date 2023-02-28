@@ -43,7 +43,7 @@ impl ProjectQuery {
 
         if self.initial || self.namespace_projects_cursor.len() > 0 {
             query.push_str(&format!(
-                r#"namespace(fullPath: "{full_path}") {{ projects(after: "{namespace_projects_cursor}") {{ pageInfo {{ hasNextPage endCursor }} nodes {{ httpUrlToRepo }} }} }} "#,
+                r#"namespace(fullPath: "{full_path}") {{ projects(after: "{namespace_projects_cursor}") {{ pageInfo {{ hasNextPage endCursor }} nodes {{ sshUrlToRepo }} }} }} "#,
                 full_path = self.full_path,
                 namespace_projects_cursor = self.namespace_projects_cursor
             ));
@@ -51,7 +51,7 @@ impl ProjectQuery {
 
         if self.initial || self.groups_cursor.len() > 0 || self.group_projects_cursor.len() > 0 {
             query.push_str(&format!(
-                r#"group(fullPath: "{full_path}") {{ descendantGroups (after: "{groups_cursor}") {{ pageInfo {{ hasNextPage endCursor }} nodes {{ projects(after: "{group_projects_cursor}") {{ pageInfo {{ hasNextPage endCursor }} nodes {{ httpUrlToRepo }} }} }} }} }} "#,
+                r#"group(fullPath: "{full_path}") {{ descendantGroups (after: "{groups_cursor}") {{ pageInfo {{ hasNextPage endCursor }} nodes {{ projects(after: "{group_projects_cursor}") {{ pageInfo {{ hasNextPage endCursor }} nodes {{ sshUrlToRepo }} }} }} }} }} "#,
                 full_path = self.full_path,
                 groups_cursor = self.groups_cursor,
                 group_projects_cursor = self.group_projects_cursor,
